@@ -1,24 +1,25 @@
-import logo from './logo.svg';
+// src/App.js
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Navbar from './components/NavBar';
+import Dashboard from './pages/Dashboard';
 import './App.css';
-
+// src/index.js
+import '@progress/kendo-theme-classic/dist/all.css';
+import RawData from './pages/RawData';
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Navbar />
+        <div style={{ padding: '20px' }}>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/raw" element={<RawData />} />
+          </Routes>
+        </div>
+      </div>
+    </BrowserRouter>
+
   );
 }
 
