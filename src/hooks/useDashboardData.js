@@ -1,18 +1,19 @@
 // src/hooks/useDashboardData.js
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getDashboardData } from "../services/dashboardService";
 
 export default function useDashboardData() {
     const [data, setData] = useState([]);
-    let loaded = false;
+    const loaded = useRef(false); // Fix: use useRef to preserve value across renders
 
     useEffect(() => {
-        if(loaded) return;
+        if (loaded.current) return; // Fix: use .current
+
         const fetchData = async () => {
             try {
                 const result = await getDashboardData();
                 setData(result);
-                loaded = true;
+                loaded.current = true; // Fix: use .current
             } catch (err) {
                 console.error('Error fetching data:', err);
             }
@@ -39,7 +40,7 @@ export default function useDashboardData() {
 
     const barChartData = verticalBarChartData();
     console.log(barChartData);
-    
+
     function pieChartData() {
         let a = data.filter(d => d.actual_datetime).length
         let b = data.filter(d => !d.actual_datetime).length
@@ -86,7 +87,7 @@ export default function useDashboardData() {
         return result;
 
     }
-    
+
 
     return {
         data,
